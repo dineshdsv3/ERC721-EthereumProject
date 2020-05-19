@@ -5,6 +5,7 @@ import './ERC721.sol';
 contract Color is ERC721Full {
 
 constructor() ERC721Full("Color", "CARD") public {
-
 }
+
+
 }
