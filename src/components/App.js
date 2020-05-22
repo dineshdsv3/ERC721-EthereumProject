@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import './App.css';
-import Color from '../abis/Color.json'
+import Color from '../abis/Color.json';
 
 class App extends Component {
 	state = {
 		account: '',
 		contract: null,
-    colors: [],
-    totalSupply: 0
+		colors: [],
+		totalSupply: 0,
 	};
 
 	async componentWillMount() {
@@ -39,11 +39,19 @@ class App extends Component {
 			const abi = Color.abi;
 			const address = networkData.address;
 			const contract = new web3.eth.Contract(abi, address);
-      this.setState({ contract });
-      console.log(this.state.contract)
-      const totalSupply = await contract.methods.totalSupply().call()
-      this.setState({ totalSupply })
-      console.log((this.state.totalSupply));
+			this.setState({ contract });
+			console.log(this.state.contract);
+			const totalSupply = await contract.methods.totalSupply().call();
+			this.setState({ totalSupply });
+			console.log(this.state.totalSupply);
+
+			for (var i = 1; i <= totalSupply; i++) {
+				const color = await contract.methods.colors(i-1).call();
+				this.setState({
+					colors: [...this.state.colors, color],
+				});
+        console.log(this.state.colors)
+      }
 		} else {
 			window.alert('Smart contract not deployed to detected network.');
 		}
