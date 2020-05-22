@@ -45,13 +45,13 @@ class App extends Component {
 			this.setState({ totalSupply });
 			console.log(this.state.totalSupply);
 
-			for (var i = 1; i <= totalSupply; i++) {
-				const color = await contract.methods.colors(i-1).call();
+			for (var i = 0; i < totalSupply; i++) {
+				const color = await contract.methods.colors(i).call();
 				this.setState({
 					colors: [...this.state.colors, color],
 				});
-        console.log(this.state.colors)
-      }
+				// console.log(this.state.colors)
+			}
 		} else {
 			window.alert('Smart contract not deployed to detected network.');
 		}
@@ -77,6 +77,21 @@ class App extends Component {
 						</li>
 					</ul>
 				</nav>
+				<div className="container-fluid mt-5">
+					<div className="row">
+						<main role="main" className="col-lg-12 d-flex text-center"></main>
+					</div>
+					<div className="row text-center">
+						{this.state.colors.map((color, key) => {
+							return (
+								<div key={key} className="col-md-3 mb-3">
+									<div className="token" style={{ backgroundColor: color }}></div>
+									<div>{color}</div>
+								</div>
+							);
+						})}
+					</div>
+				</div>
 			</div>
 		);
 	}
