@@ -6,7 +6,7 @@ contract Color is ERC721Full {
     string[] public colors;
     mapping(string => bool) _colorExists;
 
-constructor() ERC721Full("Color", "CARD") public {
+constructor() ERC721Full("Color", "COLOR") public {
 }
 
     function mint(string memory _color) public {
