@@ -85,8 +85,13 @@ class App extends Component {
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						ERC 721 Sample Color Token
+						ERC 721 Sample Color Token DApp
 					</a>
+					<ul className="navbar-nav px-2">
+						<li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+							<small className="text-white">Total tokens generated is {this.state.colors.length}</small>
+						</li>
+					</ul>
 					<ul className="navbar-nav px-3">
 						<li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
 							<small className="text-white">
