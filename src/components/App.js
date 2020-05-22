@@ -7,7 +7,8 @@ class App extends Component {
 	state = {
 		account: '',
 		contract: null,
-		colors: [],
+    colors: [],
+    totalSupply: 0
 	};
 
 	async componentWillMount() {
@@ -38,7 +39,11 @@ class App extends Component {
 			const abi = Color.abi;
 			const address = networkData.address;
 			const contract = new web3.eth.Contract(abi, address);
-			this.setState({ contract });
+      this.setState({ contract });
+      console.log(this.state.contract)
+      const totalSupply = await contract.methods.totalSupply().call()
+      this.setState({ totalSupply })
+      console.log((this.state.totalSupply));
 		} else {
 			window.alert('Smart contract not deployed to detected network.');
 		}
