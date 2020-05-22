@@ -9,6 +9,7 @@ class App extends Component {
 		contract: null,
 		colors: [],
 		totalSupply: 0,
+		color: '',
 	};
 
 	async componentWillMount() {
@@ -55,17 +56,24 @@ class App extends Component {
 		} else {
 			window.alert('Smart contract not deployed to detected network.');
 		}
-  }
-  
-  mint = (color) => {
-    this.state.contract.methods.mint(color).send({ from: this.state.account })
-    .once('receipt', (receipt) => {
-      this.setState({
-        colors: [...this.state.colors, color]
-      })
-      window.location.reload()
-    })
-  }
+	}
+
+	mint = (color) => {
+		this.state.contract.methods
+			.mint(color)
+			.send({ from: this.state.account })
+			.once('receipt', (receipt) => {
+				this.setState({
+					colors: [...this.state.colors, color],
+				});
+				window.location.reload();
+			});
+	};
+
+	handleInput = (e) => {
+		e.preventDefault();
+		this.setState({ color: e.target.value });
+	};
 
 	render() {
 		return (
@@ -95,17 +103,15 @@ class App extends Component {
 								<form
 									onSubmit={(event) => {
 										event.preventDefault();
-										const color = this.color.value;
+										const color = this.state.color;
 										this.mint(color);
 									}}
 								>
 									<input
-										type="text"
+										type="color"
 										className="form-control mb-1"
-										placeholder="e.g. #FFFFFF"
-										ref={(input) => {
-											this.color = input;
-										}}
+										name="color"
+										onChange={this.handleInput}
 									/>
 									<input type="submit" className="btn btn-block btn-primary" value="MINT" />
 								</form>
