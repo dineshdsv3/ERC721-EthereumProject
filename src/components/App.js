@@ -55,7 +55,17 @@ class App extends Component {
 		} else {
 			window.alert('Smart contract not deployed to detected network.');
 		}
-	}
+  }
+  
+  mint = (color) => {
+    this.state.contract.methods.mint(color).send({ from: this.state.account })
+    .once('receipt', (receipt) => {
+      this.setState({
+        colors: [...this.state.colors, color]
+      })
+      window.location.reload()
+    })
+  }
 
 	render() {
 		return (
@@ -79,7 +89,28 @@ class App extends Component {
 				</nav>
 				<div className="container-fluid mt-5">
 					<div className="row">
-						<main role="main" className="col-lg-12 d-flex text-center"></main>
+						<main role="main" className="col-lg-12 d-flex text-center">
+							<div className="content mr-auto ml-auto">
+								<h1>Issue Token</h1>
+								<form
+									onSubmit={(event) => {
+										event.preventDefault();
+										const color = this.color.value;
+										this.mint(color);
+									}}
+								>
+									<input
+										type="text"
+										className="form-control mb-1"
+										placeholder="e.g. #FFFFFF"
+										ref={(input) => {
+											this.color = input;
+										}}
+									/>
+									<input type="submit" className="btn btn-block btn-primary" value="MINT" />
+								</form>
+							</div>
+						</main>
 					</div>
 					<div className="row text-center">
 						{this.state.colors.map((color, key) => {
